@@ -1,6 +1,6 @@
 import { Context } from "koa";
 import { Core } from "@strapi/strapi";
-import { RoleConfig, RoleService } from "src/services/role";
+import { RoleConfig, RoleService } from "../services/role";
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async find(ctx: Context) {

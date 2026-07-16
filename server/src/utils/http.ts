@@ -1,5 +1,3 @@
-import { BodyInit, HeadersInit } from "undici-types";
-
 const FORM_URL_ENCODED = "application/x-www-form-urlencoded";
 
 async function fetchJson<T>(url: string, options?: RequestInit) {
@@ -12,7 +10,7 @@ async function fetchJson<T>(url: string, options?: RequestInit) {
   return response.json() as Promise<T>;
 }
 
-export function postForm<T>(url: string, params: BodyInit) {
+export function postForm<T>(url: string, params: URLSearchParams) {
   return fetchJson<T>(url, {
     method: "POST",
     headers: { "Content-Type": FORM_URL_ENCODED },
@@ -20,6 +18,6 @@ export function postForm<T>(url: string, params: BodyInit) {
   });
 }
 
-export function getJson<T>(url: string, headers: HeadersInit = {}) {
+export function getJson<T>(url: string, headers: Record<string, string> = {}) {
   return fetchJson<T>(url, { method: "GET", headers });
 }
