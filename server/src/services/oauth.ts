@@ -48,7 +48,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     });
   },
   localeFindByHeader(ctx: Context) {
-    return ctx.acceptsLanguages("en", "fr") || "en";
+    return ctx.acceptsLanguages("en", "fr", "it") || "en";
   },
   async triggerWebHook(user: AdminUser) {
     const eventHub = strapi.eventHub;

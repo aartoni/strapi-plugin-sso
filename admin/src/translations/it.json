@@ -1,0 +1,10 @@
+{
+  "page.title": "Assegna ruoli Strapi agli utenti in base ai loro claim OIDC",
+  "page.save": "Salva",
+  "page.save.success": "Impostazioni aggiornate",
+  "page.save.error": "Aggiornamento fallito",
+  "page.cancel": "Annulla",
+  "page.ok": "OK",
+  "role.expression.label": "Mapping ruoli",
+  "role.expression.hint": "Un'espressione JMESPath valutata sui claim OIDC. Deve restituire il nome di un ruolo Strapi."
+}

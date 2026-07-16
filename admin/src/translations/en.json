@@ -1,10 +1,10 @@
 {
   "page.title": "Assign Strapi roles to users based on their OIDC claims",
   "page.save": "Save",
-  "page.save.success": "Updated settings",
-  "page.save.error": "Update failed.",
+  "page.save.success": "Settings updated",
+  "page.save.error": "Update failed",
   "page.cancel": "Cancel",
   "page.ok": "OK",
-  "role.expression.label": "Role attribute path",
-  "role.expression.hint": "A JMESPath expression evaluated against the OIDC userinfo response. Must return a Strapi role name."
+  "role.expression.label": "Role mapping",
+  "role.expression.hint": "A JMESPath expression evaluated against the OIDC claims. Must return a Strapi role name."
 }
