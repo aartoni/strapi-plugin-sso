@@ -39,22 +39,20 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     return ctx.acceptsLanguages("en", "fr", "it") || "en";
   },
   async triggerWebHook(user: AdminUser) {
-    const eventHub = strapi.eventHub;
     const schema = strapi.getModel("admin::user");
     const sanitizedEntity = await strapi.contentAPI.sanitize.output(
       user,
       schema,
     );
 
-    eventHub.emit("entry.create", {
+    strapi.eventHub.emit("entry.create", {
       model: schema.modelName,
       entry: sanitizedEntity,
     });
   },
   triggerSignInSuccess(user: AdminUser) {
     const { password, ...safeUser } = user;
-    const eventHub = strapi.eventHub;
-    eventHub.emit("admin.auth.success", {
+    strapi.eventHub.emit("admin.auth.success", {
       user: safeUser,
       provider: "oidc",
     });
