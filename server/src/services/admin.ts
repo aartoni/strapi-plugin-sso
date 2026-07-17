@@ -59,9 +59,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       provider: "oidc",
     });
   },
-  // Sign In Success
   renderSignInSuccess(jwtToken: string, nonce: string) {
-    // get rememberMe from config
     const config: Config = strapi.config.get("plugin::oidc");
     const rememberMe = !!config.rememberMe;
     const isRememberMe = rememberMe;
