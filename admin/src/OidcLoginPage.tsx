@@ -9,7 +9,7 @@ import { useAuth } from "@strapi/admin/strapi-admin";
  * Everyone else is redirected to the OIDC sign-in endpoint.
  */
 const OidcLoginPage = () => {
-  const { token } = useAuth("OidcLoginPage", (auth) => auth);
+  const token = useAuth("OidcLoginPage", (auth) => auth.token);
 
   useEffect(() => {
     if (!token) window.location.replace("/api/oidc/sign-in");
