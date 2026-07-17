@@ -68,11 +68,11 @@ const oidcSignInCallback = async (ctx: Context) => {
   delete ctx.session.oidcNonce;
 
   if (!ctx.query.code) {
-    ctx.body = adminService.renderSignUpError("sso_no_code");
+    ctx.body = adminService.renderSignInError("sso_no_code");
     return;
   }
   if (!ctx.query.state || ctx.query.state !== oidcState) {
-    ctx.body = adminService.renderSignUpError("sso_invalid_state");
+    ctx.body = adminService.renderSignInError("sso_invalid_state");
     return;
   }
 
@@ -99,7 +99,7 @@ const oidcSignInCallback = async (ctx: Context) => {
     );
 
     if (!oidcNonce || payload.nonce !== oidcNonce) {
-      ctx.body = adminService.renderSignUpError("sso_invalid_state");
+      ctx.body = adminService.renderSignInError("sso_invalid_state");
       return;
     }
 
@@ -110,7 +110,7 @@ const oidcSignInCallback = async (ctx: Context) => {
     // OIDC Core §5.3.2: the userinfo `sub` MUST exactly match the verified
     // id_token `sub`, otherwise the response isn't bound to this login.
     if (!payload.sub || userResponse.sub !== payload.sub) {
-      ctx.body = adminService.renderSignUpError("sso_failed");
+      ctx.body = adminService.renderSignInError("sso_failed");
       return;
     }
 
@@ -128,7 +128,7 @@ const oidcSignInCallback = async (ctx: Context) => {
       // Register a new account
       const roles = await roleService.resolveRole(userResponse);
       if (!roles) {
-        ctx.body = adminService.renderSignUpError("sso_access_denied");
+        ctx.body = adminService.renderSignInError("sso_access_denied");
         return;
       }
 
@@ -151,12 +151,12 @@ const oidcSignInCallback = async (ctx: Context) => {
 
     // Client-side authentication persistence and redirection
     const nonce = randomUUID();
-    const html = adminService.renderSignUpSuccess(jwtToken, nonce);
+    const html = adminService.renderSignInSuccess(jwtToken, nonce);
     ctx.set("Content-Security-Policy", `script-src 'nonce-${nonce}'`);
     ctx.body = html;
   } catch (e) {
     strapi.log.error(e);
-    ctx.body = adminService.renderSignUpError("sso_failed");
+    ctx.body = adminService.renderSignInError("sso_failed");
     return;
   }
 };

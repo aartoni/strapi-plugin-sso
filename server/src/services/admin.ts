@@ -71,7 +71,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     });
   },
   // Sign In Success
-  renderSignUpSuccess(jwtToken: string, nonce: string) {
+  renderSignInSuccess(jwtToken: string, nonce: string) {
     // get rememberMe from config
     const config: Config = strapi.config.get("plugin::oidc");
     const rememberMe = !!config.rememberMe;
@@ -98,7 +98,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </body>
 </html>`;
   },
-  renderSignUpError(code: SsoErrorCode) {
+  renderSignInError(code: SsoErrorCode) {
     const message = SsoError[code] ?? SsoError.sso_failed;
     const loginUrl = `${strapi.config.admin.url}/auth/login`;
     return `

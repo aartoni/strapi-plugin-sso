@@ -27,16 +27,16 @@ const mockStrapi = {
 describe("admin service", () => {
   const service = admin({ strapi: mockStrapi });
 
-  describe("renderSignUpError", () => {
+  describe("renderSignInError", () => {
     test.each(Object.entries(SsoError))(
       'code "%s" renders the correct message',
       (code, message) => {
-        expect(service.renderSignUpError(code)).toContain(message);
+        expect(service.renderSignInError(code)).toContain(message);
       },
     );
 
     test("includes auto-redirect and link back to the login page", () => {
-      const html = service.renderSignUpError("sso_no_code");
+      const html = service.renderSignInError("sso_no_code");
       expect(html).toContain("/admin/auth/login");
       expect(html).toContain('http-equiv="refresh"');
     });
