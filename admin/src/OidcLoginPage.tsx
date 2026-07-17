@@ -16,6 +16,7 @@ const OidcLoginPage = () => {
   }, [token]);
 
   if (token) return <Navigate to="/" />;
+  return null;
 };
 
 // Named export must match what @strapi/admin's router.mjs destructures:
