@@ -16,8 +16,8 @@ export enum SsoError {
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async createUser(
     email: string,
-    lastname: string,
     firstname: string,
+    lastname: string,
     locale: string,
     roles = [],
   ) {

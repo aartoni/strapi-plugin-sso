@@ -135,8 +135,8 @@ const oidcSignInCallback = async (ctx: Context) => {
       const defaultLocale = adminService.localeFindByHeader(ctx);
       activateUser = await adminService.createUser(
         email,
-        userResponse[config.familyNameField],
         userResponse[config.givenNameField],
+        userResponse[config.familyNameField],
         defaultLocale,
         roles,
       );
