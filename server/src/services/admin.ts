@@ -22,7 +22,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     roles = [],
   ) {
     const userService = strapi.service("admin::user");
-    const normalizedEmail = email.toLowerCase();
     const existing = await userService.findOneByEmail(normalizedEmail);
     if (existing) {
       return existing;
@@ -32,7 +31,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     const createdUser = await userService.create({
       firstname: resolvedFirstName,
       lastname: lastname ?? "",
-      email: normalizedEmail,
+      email,
       roles,
       preferedLanguage: locale,
     });

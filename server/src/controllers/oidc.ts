@@ -115,8 +115,7 @@ const oidcSignInCallback = async (ctx: Context) => {
       return;
     }
 
-    const email = userResponse.email;
-
+    const email = userResponse.email.toLowerCase();
     const dbUser = await userService.findOneByEmail(email);
     let activateUser;
     let jwtToken;
