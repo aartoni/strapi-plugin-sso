@@ -47,5 +47,5 @@ export async function discoverEndpoints(issuer: string) {
     tokenEndpoint: doc.token_endpoint,
     userInfoEndpoint: doc.userinfo_endpoint,
     jwksUri: doc.jwks_uri,
-  } as DiscoveredEndpoints;
+  };
 }
