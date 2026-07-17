@@ -1,8 +1,7 @@
 import { Core } from "@strapi/strapi";
 import { SetOption } from "cookies";
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomUUID } from "node:crypto";
 import { Context } from "koa";
-import { randomUUID } from "node:crypto";
 import { Config } from "../utils/config";
 import { SsoErrorCode } from "../utils/errors";
 import { AdminSessionsConfig, AdminUser } from "../types/strapi";
