@@ -1,6 +1,5 @@
 import pluginPkg from "../../package.json";
 import PLUGIN_ID from "./pluginId";
-import { Initializer } from "./components/Initializer";
 import { PluginIcon } from "./components/PluginIcon";
 import { prefixPluginTranslations } from "./utils/translations";
 import { StrapiApp } from "@strapi/strapi/admin";
@@ -20,7 +19,7 @@ export default {
       Component: () => import("./pages/App"),
       permissions: [{ action: `plugin::${PLUGIN_ID}.read`, subject: null }],
     });
-    app.registerPlugin({ id: PLUGIN_ID, initializer: Initializer, name });
+    app.registerPlugin({ id: PLUGIN_ID, name, isReady: true });
   },
   async registerTrads({ locales }: { locales: string[] }) {
     return Promise.all(
