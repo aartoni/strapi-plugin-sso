@@ -1,6 +1,7 @@
 import { Core } from "@strapi/strapi";
 import { Config } from "./utils/config";
 import { discoverEndpoints } from "./utils/discovery";
+import PLUGIN_ID from "./pluginId";
 
 export default async ({ strapi }: { strapi: Core.Strapi }) => {
   const config = strapi.config.get<Config>("plugin::oidc");
@@ -23,7 +24,7 @@ export default async ({ strapi }: { strapi: Core.Strapi }) => {
       section: "plugins",
       displayName: "Read",
       uid: "read",
-      pluginName: "oidc",
+      pluginName: PLUGIN_ID,
     },
   ];
   await strapi.admin.services.permission.actionProvider.registerMany(actions);

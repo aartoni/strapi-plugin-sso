@@ -18,7 +18,7 @@ export default {
         defaultMessage: "Single Sign-On",
       },
       Component: () => import("./pages/App"),
-      permissions: [{ action: "plugin::oidc.read", subject: null }],
+      permissions: [{ action: `plugin::${PLUGIN_ID}.read`, subject: null }],
     });
     app.registerPlugin({ id: PLUGIN_ID, initializer: Initializer, name });
   },
