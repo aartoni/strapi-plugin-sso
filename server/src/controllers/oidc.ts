@@ -156,7 +156,7 @@ const oidcSignInCallback = async (ctx: Context) => {
     ctx.body = html;
   } catch (e) {
     strapi.log.error(e);
-    ctx.body = oauthService.renderSignUpError("sso_failed.");
+    ctx.body = oauthService.renderSignUpError("sso_failed");
     return;
   }
 };
