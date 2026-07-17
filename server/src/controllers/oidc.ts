@@ -38,15 +38,16 @@ const oidcSignIn = async (ctx: Context) => {
   const oidcNonce = randomBytes(32).toString("base64url");
   ctx.session.oidcNonce = oidcNonce;
 
-  const params = new URLSearchParams();
-  params.append("response_type", "code");
-  params.append("client_id", clientId);
-  params.append("redirect_uri", redirectUri);
-  params.append("scope", scopes);
-  params.append("code_challenge", codeChallenge);
-  params.append("code_challenge_method", "S256");
-  params.append("state", state);
-  params.append("nonce", oidcNonce);
+  const params = new URLSearchParams({
+    response_type: "code",
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    scope: scopes,
+    code_challenge: codeChallenge,
+    code_challenge_method: "S256",
+    state,
+    nonce: oidcNonce,
+  });
 
   ctx.redirect(`${authorizationEndpoint}?${params}`);
 };
@@ -74,15 +75,14 @@ const oidcSignInCallback = async (ctx: Context) => {
     return;
   }
 
-  const params = new URLSearchParams();
-  params.append("code", ctx.query.code as string);
-  params.append("client_id", config.clientId);
-  params.append("client_secret", config.clientSecret);
-  params.append("redirect_uri", config.redirectUri);
-  params.append("grant_type", "authorization_code");
-
-  // Include the code verifier from the session
-  params.append("code_verifier", codeVerifier);
+  const params = new URLSearchParams({
+    code: ctx.query.code as string,
+    client_id: config.clientId,
+    client_secret: config.clientSecret,
+    redirect_uri: config.redirectUri,
+    grant_type: "authorization_code",
+    code_verifier: codeVerifier,
+  });
 
   try {
     const response = await postForm<OidcTokenResponse>(
