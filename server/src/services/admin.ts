@@ -23,9 +23,11 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   ) {
     const userService = strapi.service("admin::user");
     const resolvedFirstName = firstname || email.split("@")[0];
+    const resolvedLastName = lastname ?? "";
+
     const createdUser = await userService.create({
       firstname: resolvedFirstName,
-      lastname: lastname ?? "",
+      lastname: resolvedLastName,
       email,
       roles,
       preferedLanguage: locale,
@@ -35,7 +37,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       registrationToken: createdUser.registrationToken,
       userInfo: {
         firstname: resolvedFirstName,
-        lastname: lastname ?? "",
+        lastname: resolvedLastName,
         password: randomBytes(32).toString("hex"),
       },
     });
