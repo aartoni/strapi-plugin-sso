@@ -107,14 +107,14 @@ const oidcSignInCallback = async (ctx: Context) => {
     }
 
     const email = userResponse.email.toLowerCase();
-    const dbUser = await userService.findOneByEmail(email);
+    const user = await userService.findOneByEmail(email);
     let activateUser;
     let jwtToken;
 
-    if (dbUser) {
+    if (user) {
       // Already registered
-      activateUser = dbUser;
-      jwtToken = await adminService.generateToken(dbUser, ctx);
+      activateUser = user;
+      jwtToken = await adminService.generateToken(user, ctx);
     } else {
       // Register a new account
       const roles = await roleService.resolveRole(userResponse);
