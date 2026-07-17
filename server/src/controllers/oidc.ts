@@ -4,16 +4,10 @@ import { randomUUID, randomBytes, createHash } from "node:crypto";
 import { Config } from "../utils/config";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-let remoteJwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
-let cachedJwksUri: string | undefined;
+let jwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 
-const getJwkSet = (jwksUri: string) => {
-  if (!remoteJwkSet || cachedJwksUri !== jwksUri) {
-    remoteJwkSet = createRemoteJWKSet(new URL(jwksUri));
-    cachedJwksUri = jwksUri;
-  }
-  return remoteJwkSet;
-};
+const getJwkSet = (jwksUri: string) =>
+  (jwkSet ??= createRemoteJWKSet(new URL(jwksUri)));
 
 const oidcSignIn = async (ctx: Context) => {
   const { clientId, redirectUri, scopes, authorizationEndpoint } =
