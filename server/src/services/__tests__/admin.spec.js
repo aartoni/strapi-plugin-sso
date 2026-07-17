@@ -1,6 +1,7 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import accepts from "accepts";
-import admin, { SsoError } from "../admin";
+import admin from "../admin";
+import { SSO_ERRORS } from "../../utils/errors";
 
 const ctxFor = (acceptLanguage) => {
   const headers = { "accept-language": acceptLanguage };
@@ -28,7 +29,7 @@ describe("admin service", () => {
   const service = admin({ strapi: mockStrapi });
 
   describe("renderSignInError", () => {
-    test.each(Object.entries(SsoError))(
+    test.each(Object.entries(SSO_ERRORS))(
       'code "%s" renders the correct message',
       (code, message) => {
         expect(service.renderSignInError(code)).toContain(message);

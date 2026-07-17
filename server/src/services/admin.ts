@@ -3,15 +3,8 @@ import { SetOption } from "cookies";
 import { randomBytes, randomUUID } from "node:crypto";
 import { Context } from "koa";
 import { Config } from "../utils/config";
-import { SsoErrorCode } from "../utils/errors";
+import { SSO_ERRORS, SsoErrorCode } from "../utils/errors";
 import { AdminSessionsConfig, AdminUser } from "../types/strapi";
-
-export enum SsoError {
-  sso_no_code = "No authorization code was returned by the provider.",
-  sso_invalid_state = "The login request could not be verified. Please try again.",
-  sso_access_denied = "Your account has not been granted access. Please contact your administrator.",
-  sso_failed = "Authentication failed. Please try again or contact your administrator.",
-}
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async createUser(
@@ -95,7 +88,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </html>`;
   },
   renderSignInError(code: SsoErrorCode) {
-    const message = SsoError[code] ?? SsoError.sso_failed;
+    const message = SSO_ERRORS[code] ?? SSO_ERRORS.sso_failed;
     const loginUrl = `${strapi.config.admin.url}/auth/login`;
     return `
 <!doctype html>
