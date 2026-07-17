@@ -107,38 +107,27 @@ const oidcSignInCallback = async (ctx: Context) => {
     }
 
     const email = userResponse.email.toLowerCase();
-    const user = await userService.findOneByEmail(email);
-    let activateUser;
-    let jwtToken;
+    let user = await userService.findOneByEmail(email);
 
-    if (user) {
-      // Already registered
-      activateUser = user;
-      jwtToken = await adminService.generateToken(user, ctx);
-    } else {
-      // Register a new account
+    if (!user) {
       const roles = await roleService.resolveRole(userResponse);
-      if (!roles) {
+      if (!roles?.length) {
         ctx.body = adminService.renderSignInError("sso_access_denied");
         return;
       }
 
-      const defaultLocale = adminService.localeFindByHeader(ctx);
-      activateUser = await adminService.createUser(
+      user = await adminService.createUser(
         email,
         userResponse[config.givenNameField],
         userResponse[config.familyNameField],
-        defaultLocale,
+        adminService.localeFindByHeader(ctx),
         roles,
       );
-      jwtToken = await adminService.generateToken(activateUser, ctx);
-
-      // Trigger webhook
-      await adminService.triggerWebHook(activateUser);
+      await adminService.triggerWebHook(user);
     }
 
-    // Login Event Call
-    adminService.triggerSignInSuccess(activateUser);
+    const jwtToken = await adminService.generateToken(user, ctx);
+    adminService.triggerSignInSuccess(user);
 
     // Client-side authentication persistence and redirection
     const nonce = randomUUID();
