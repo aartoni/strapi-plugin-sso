@@ -33,7 +33,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       preferedLanguage: locale,
     });
 
-    return await userService.register({
+    return userService.register({
       registrationToken: createdUser.registrationToken,
       userInfo: {
         firstname: resolvedFirstName,
