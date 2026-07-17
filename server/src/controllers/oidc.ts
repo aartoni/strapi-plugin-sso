@@ -1,7 +1,6 @@
 import { Context } from "koa";
 import { getJson, postForm } from "../utils/http";
-import { randomUUID, randomBytes } from "node:crypto";
-import pkceChallenge from "pkce-challenge";
+import { randomUUID, randomBytes, createHash } from "node:crypto";
 import { Config } from "../utils/config";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
@@ -21,9 +20,11 @@ const oidcSignIn = async (ctx: Context) => {
   const { clientId, redirectUri, scopes, authorizationEndpoint } =
     strapi.config.get<Config>("plugin::oidc");
 
-  // Generate code verifier and code challenge
-  const { code_verifier: codeVerifier, code_challenge: codeChallenge } =
-    await pkceChallenge();
+  // Generate code verifier and code challenge as per RFC 7636
+  const codeVerifier = randomBytes(32).toString("base64url");
+  const codeChallenge = createHash("sha256")
+    .update(codeVerifier)
+    .digest("base64url");
 
   // Store the code verifier in the session
   ctx.session.codeVerifier = codeVerifier;
