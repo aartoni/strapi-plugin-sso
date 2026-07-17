@@ -1,6 +1,6 @@
+import { useAuth } from "@strapi/strapi/admin";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@strapi/admin/strapi-admin";
 
 /**
  * Replaces Strapi's AuthPage for all /auth/:authType routes.
