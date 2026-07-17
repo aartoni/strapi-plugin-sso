@@ -1,7 +1,7 @@
-import oauth from "./oauth";
+import admin from "./admin";
 import role from "./role";
 
 export default {
-  oauth,
+  admin,
   role,
 };

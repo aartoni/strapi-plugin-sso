@@ -1,6 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
 import accepts from "accepts";
-import oauth, { SsoError } from "../oauth";
+import admin, { SsoError } from "../admin";
 
 const ctxFor = (acceptLanguage) => {
   const headers = { "accept-language": acceptLanguage };
@@ -24,8 +24,8 @@ const mockStrapi = {
   sessionManager: jest.fn().mockReturnValue(mockSession),
 };
 
-describe("oauth service", () => {
-  const service = oauth({ strapi: mockStrapi });
+describe("admin service", () => {
+  const service = admin({ strapi: mockStrapi });
 
   describe("renderSignUpError", () => {
     test.each(Object.entries(SsoError))(
