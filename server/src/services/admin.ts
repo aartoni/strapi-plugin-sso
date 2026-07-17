@@ -126,8 +126,8 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       deviceId = randomUUID();
       ctx.cookies.set("strapi_admin_device", deviceId, {
         sameSite: "lax",
+        ...strapi.config.get("admin.auth.cookie", {}),
         path: "/admin",
-        secure: !["development", "test"].includes(process.env.NODE_ENV ?? ""),
         maxAge: 1000 * 60 * 60 * 24 * 365,
       });
     }
