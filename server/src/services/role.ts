@@ -9,7 +9,7 @@ export type RoleConfig = {
 
 const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
   async getConfig(): Promise<RoleConfig | null> {
-    return await strapi.query("plugin::oidc.roles").findOne({});
+    return await strapi.db.query("plugin::oidc.roles").findOne({});
   },
   async setConfig({ expression }: RoleConfig) {
     // Throws on invalid JMESPath syntax, caught by the controller.
