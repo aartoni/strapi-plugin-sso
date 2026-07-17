@@ -51,8 +51,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   async triggerWebHook(user: AdminUser) {
     const eventHub = strapi.eventHub;
-    if (!eventHub) return;
-
     const schema = strapi.getModel("admin::user");
     const sanitizedEntity = await strapi.contentAPI.sanitize.output(
       user,
@@ -134,11 +132,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   async generateToken(user: AdminUser, ctx: Context) {
     const sessionManager = strapi.sessionManager;
-    if (!sessionManager) {
-      throw new Error(
-        "sessionManager is not supported. Please upgrade to Strapi v5.24.1 or later.",
-      );
-    }
     const userId = String(user.id);
 
     let deviceId = ctx.cookies.get("strapi_admin_device");
