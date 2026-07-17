@@ -16,7 +16,6 @@ const getJwkSet = (jwksUri: string) => {
 };
 
 const oidcSignIn = async (ctx: Context) => {
-  let state = ctx.query.state as string;
   const { clientId, redirectUri, scopes, authorizationEndpoint } =
     strapi.config.get<Config>("plugin::oidc");
 
@@ -29,9 +28,7 @@ const oidcSignIn = async (ctx: Context) => {
   // Store the code verifier in the session
   ctx.session.codeVerifier = codeVerifier;
 
-  if (!state) {
-    state = randomBytes(32).toString("base64url");
-  }
+  const state = randomBytes(32).toString("base64url");
   ctx.session.oidcState = state;
 
   // nonce: binds the ID token to this session to prevent replay.
