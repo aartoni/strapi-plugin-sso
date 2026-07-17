@@ -50,7 +50,7 @@ const oidcSignIn = async (ctx: Context) => {
   params.append("state", state);
   params.append("nonce", oidcNonce);
 
-  ctx.redirect(`${authorizationEndpoint}?${params.toString()}`);
+  ctx.redirect(`${authorizationEndpoint}?${params}`);
 };
 
 const oidcSignInCallback = async (ctx: Context) => {
