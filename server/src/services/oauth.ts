@@ -81,9 +81,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 <!doctype html>
 <html>
 <head>
-<noscript>
-<h3>JavaScript must be enabled for authentication</h3>
-</noscript>
 <script nonce="${nonce}">
  window.addEventListener('load', function() {
   if(${isRememberMe}){
@@ -97,6 +94,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </script>
 </head>
 <body>
+<noscript>JavaScript must be enabled for authentication</noscript>
 </body>
 </html>`;
   },
