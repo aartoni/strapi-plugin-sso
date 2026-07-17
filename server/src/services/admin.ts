@@ -114,7 +114,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 </html>`;
   },
   async generateToken(user: AdminUser, ctx: Context) {
-    const sessionManager = strapi.sessionManager;
+    const sessionManager = strapi.sessionManager("admin");
     const userId = String(user.id);
 
     let deviceId = ctx.cookies.get("strapi_admin_device");
@@ -131,11 +131,11 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     const config: Config = strapi.config.get("plugin::oidc");
     const rememberMe = !!config.rememberMe;
 
-    const { token: refreshToken } = await sessionManager(
-      "admin",
-    ).generateRefreshToken(userId, deviceId, {
-      type: rememberMe ? "refresh" : "session",
-    });
+    const { token: refreshToken } = await sessionManager.generateRefreshToken(
+      userId,
+      deviceId,
+      { type: rememberMe ? "refresh" : "session" },
+    );
 
     const sessions = strapi.config.get<AdminSessionsConfig>(
       "admin.auth.sessions",
@@ -151,8 +151,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     };
     ctx.cookies.set("strapi_admin_refresh", refreshToken, cookieOptions);
 
-    const accessResult =
-      await sessionManager("admin").generateAccessToken(refreshToken);
+    const accessResult = await sessionManager.generateAccessToken(refreshToken);
     if ("error" in accessResult) {
       throw new Error(accessResult.error);
     }
