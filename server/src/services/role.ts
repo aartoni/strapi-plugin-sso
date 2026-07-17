@@ -1,5 +1,6 @@
 import { search, compile, JSONValue } from "@jmespath-community/jmespath";
 import { Core } from "@strapi/strapi";
+import { AdminRole } from "../types/strapi";
 
 export type RoleConfig = {
   expression: string;
@@ -24,7 +25,9 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
       .query("plugin::oidc.roles")
       .create({ data: { expression } });
   },
-  async resolveRole(userInfo: JSONValue) {
+  async resolveRole(
+    userInfo: JSONValue,
+  ): Promise<Pick<AdminRole, "id">[] | null> {
     const config = await this.getConfig();
     if (!config?.expression) {
       return null;
