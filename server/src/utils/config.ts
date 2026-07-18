@@ -2,17 +2,18 @@ export type Config = {
   discovery: boolean;
   rememberMe?: boolean;
 
-  authorizationEndpoint: string;
-  tokenEndpoint: string;
-  userInfoEndpoint: string;
   issuer: string;
-  jwksUri: string;
   clientId: string;
   clientSecret: string;
   redirectUri: string;
   scopes: string;
   familyNameField: string;
   givenNameField: string;
+
+  authorizationEndpoint: string;
+  tokenEndpoint: string;
+  userInfoEndpoint: string;
+  jwksUri: string;
 };
 
 export const ALWAYS_REQUIRED_FIELDS: (keyof Config)[] = [
