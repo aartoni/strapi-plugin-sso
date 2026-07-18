@@ -4,7 +4,7 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { Context } from "koa";
 import { Config } from "../utils/config";
 import { SSO_ERRORS, SsoErrorCode } from "../utils/errors";
-import { AdminRole, AdminSessionsConfig, AdminUser } from "../types/strapi";
+import { AdminRoleRef, AdminSessionsConfig, AdminUser } from "../types/strapi";
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async createUser(
@@ -12,7 +12,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     firstname: string,
     lastname: string,
     locale: string,
-    roles: Pick<AdminRole, "id">[],
+    roles: AdminRoleRef[],
   ) {
     const userService = strapi.service("admin::user");
     const resolvedFirstName = firstname || email.split("@")[0];
