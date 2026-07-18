@@ -10,7 +10,7 @@ let jwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 const getJwkSet = (jwksUri: string) =>
   (jwkSet ??= createRemoteJWKSet(new URL(jwksUri)));
 
-const oidcSignIn = async (ctx: Context) => {
+const signIn = async (ctx: Context) => {
   const { clientId, redirectUri, scopes, authorizationEndpoint } =
     strapi.config.get<Config>("plugin::oidc");
 
@@ -47,7 +47,7 @@ const oidcSignIn = async (ctx: Context) => {
   ctx.redirect(`${authorizationEndpoint}?${params}`);
 };
 
-const oidcSignInCallback = async (ctx: Context) => {
+const signInCallback = async (ctx: Context) => {
   const config = strapi.config.get<Config>("plugin::oidc");
   const userService = strapi.service("admin::user");
   const adminService = strapi.plugin(PLUGIN_ID).service("admin");
@@ -143,6 +143,6 @@ const oidcSignInCallback = async (ctx: Context) => {
 };
 
 export default {
-  oidcSignIn,
-  oidcSignInCallback,
+  signIn,
+  signInCallback,
 };

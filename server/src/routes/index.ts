@@ -22,13 +22,13 @@ export default {
       {
         method: "GET",
         path: "/sign-in",
-        handler: "oidc.oidcSignIn",
+        handler: "oidc.signIn",
         config: { auth: false },
       },
       {
         method: "GET",
         path: "/callback",
-        handler: "oidc.oidcSignInCallback",
+        handler: "oidc.signInCallback",
         config: { auth: false },
       },
     ],
