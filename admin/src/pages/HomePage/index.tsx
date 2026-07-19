@@ -10,6 +10,8 @@ import {
 } from "../../components/AlertMessage";
 import { getTranslation } from "../../utils/translations";
 
+type SsoRolesResponse = { expression: string } | null;
+
 const HomePage = () => {
   const { formatMessage } = useIntl();
   const [expression, setExpression] = useState("");
@@ -18,7 +20,7 @@ const HomePage = () => {
   const { get, put } = useFetchClient();
 
   useEffect(() => {
-    get("/oidc/sso-roles").then((response) => {
+    get<SsoRolesResponse>("/oidc/sso-roles").then((response) => {
       setExpression(response.data?.expression ?? "");
     });
   }, []);
