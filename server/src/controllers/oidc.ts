@@ -6,6 +6,7 @@ import { createRemoteJWKSet, jwtVerify } from "jose";
 import PLUGIN_ID from "../pluginId";
 import type { RoleService } from "../services/role";
 import { AdminService } from "../services/admin";
+import { SsoError } from "../utils/errors";
 
 let jwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 
@@ -60,11 +61,11 @@ const callback = async (ctx: Context) => {
   delete ctx.session.oidcNonce;
 
   if (!ctx.query.code) {
-    ctx.body = adminService.renderSignInError("sso_no_code");
+    ctx.body = adminService.renderSignInError(SsoError.NoCode);
     return;
   }
   if (!ctx.query.state || ctx.query.state !== oidcState) {
-    ctx.body = adminService.renderSignInError("sso_invalid_state");
+    ctx.body = adminService.renderSignInError(SsoError.InvalidState);
     return;
   }
 
@@ -90,7 +91,7 @@ const callback = async (ctx: Context) => {
     );
 
     if (!oidcNonce || payload.nonce !== oidcNonce) {
-      ctx.body = adminService.renderSignInError("sso_invalid_state");
+      ctx.body = adminService.renderSignInError(SsoError.InvalidState);
       return;
     }
 
@@ -101,7 +102,7 @@ const callback = async (ctx: Context) => {
     // OIDC Core §5.3.2: the userinfo `sub` MUST exactly match the verified
     // id_token `sub`, otherwise the response isn't bound to this login.
     if (!payload.sub || userResponse.sub !== payload.sub) {
-      ctx.body = adminService.renderSignInError("sso_failed");
+      ctx.body = adminService.renderSignInError(SsoError.Failed);
       return;
     }
 
@@ -111,7 +112,7 @@ const callback = async (ctx: Context) => {
     if (!user) {
       const roles = await roleService.resolveRole(userResponse);
       if (!roles?.length) {
-        ctx.body = adminService.renderSignInError("sso_access_denied");
+        ctx.body = adminService.renderSignInError(SsoError.AccessDenied);
         return;
       }
 
@@ -135,7 +136,7 @@ const callback = async (ctx: Context) => {
     ctx.body = html;
   } catch (e) {
     strapi.log.error(e);
-    ctx.body = adminService.renderSignInError("sso_failed");
+    ctx.body = adminService.renderSignInError(SsoError.Failed);
     return;
   }
 };

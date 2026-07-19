@@ -3,7 +3,7 @@ import { SetOption } from "cookies";
 import { randomBytes, randomUUID } from "node:crypto";
 import { Context } from "koa";
 import { Config } from "../utils/config";
-import { SSO_ERRORS, SsoErrorCode } from "../utils/errors";
+import { SSO_ERRORS, SsoError } from "../utils/errors";
 import { AdminRoleRef, AdminSessionsConfig, AdminUser } from "../types/strapi";
 
 const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
@@ -83,8 +83,8 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
 </body>
 </html>`;
   },
-  renderSignInError(code: SsoErrorCode) {
-    const message = SSO_ERRORS[code] ?? SSO_ERRORS.sso_failed;
+  renderSignInError(code: SsoError) {
+    const message = SSO_ERRORS[code];
     const loginUrl = `${strapi.config.admin.url}/auth/login`;
     return `
 <!doctype html>
