@@ -60,7 +60,6 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
   renderSignInSuccess(jwtToken: string, nonce: string) {
     const config: Config = strapi.config.get("plugin::oidc");
     const rememberMe = !!config.rememberMe;
-    const isRememberMe = rememberMe;
 
     return `
 <!doctype html>
@@ -68,7 +67,7 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
 <head><meta charset="utf-8"></head><body>
 <noscript>JavaScript must be enabled for authentication</noscript>
 <script nonce="${nonce}">
-if(${isRememberMe}){
+if(${rememberMe}){
   localStorage.setItem('jwtToken', '"${jwtToken}"');
 } else {
   document.cookie = 'jwtToken=${encodeURIComponent(jwtToken)}; Path=/';
