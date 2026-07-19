@@ -6,4 +6,5 @@ export default ({ env }: Core.Config.Shared.ConfigParams) => ({
   app: {
     keys: env.array("APP_KEYS"),
   },
+  proxy: { koa: true },
 });
