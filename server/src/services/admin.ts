@@ -67,15 +67,13 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
 <html>
 <head>
 <script nonce="${nonce}">
- window.addEventListener('load', function() {
-  if(${isRememberMe}){
-    localStorage.setItem('jwtToken', '"${jwtToken}"');
-  }else{
-    document.cookie = 'jwtToken=${encodeURIComponent(jwtToken)}; Path=/';
-  }
-  localStorage.setItem('isLoggedIn', 'true');
-  location.href = '${strapi.config.admin.url}'
- })
+if(${isRememberMe}){
+  localStorage.setItem('jwtToken', '"${jwtToken}"');
+} else {
+  document.cookie = 'jwtToken=${encodeURIComponent(jwtToken)}; Path=/';
+}
+localStorage.setItem('isLoggedIn', 'true');
+location.href = '${strapi.config.admin.url}'
 </script>
 </head>
 <body>
