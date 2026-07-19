@@ -53,9 +53,7 @@ const callback = async (ctx: Context) => {
   const roleService: RoleService = strapi.plugin(PLUGIN_ID).service("role");
 
   // Read and clear one-time session values up front so they can't be reused
-  const oidcState = ctx.session.oidcState;
-  const codeVerifier = ctx.session.codeVerifier;
-  const oidcNonce = ctx.session.oidcNonce;
+  const { oidcState, codeVerifier, oidcNonce } = ctx.session;
   delete ctx.session.oidcState;
   delete ctx.session.codeVerifier;
   delete ctx.session.oidcNonce;
