@@ -25,7 +25,10 @@ export function SuccessAlertMessage({ onClose }: Props) {
         closeLabel={""}
         onClose={onClose}
       >
-        {formatMessage({ id: getTranslation("page.save.success") })}
+        {formatMessage({
+          id: getTranslation("page.save.success"),
+          defaultMessage: "Settings updated",
+        })}
       </Alert>
     </AlertMessage>
   );
@@ -36,7 +39,10 @@ export function ErrorAlertMessage({ onClose }: Props) {
   return (
     <AlertMessage>
       <Alert title="Error" variant={"danger"} closeLabel={""} onClose={onClose}>
-        {formatMessage({ id: getTranslation("page.save.error") })}
+        {formatMessage({
+          id: getTranslation("page.save.error"),
+          defaultMessage: "Update failed",
+        })}
       </Alert>
     </AlertMessage>
   );

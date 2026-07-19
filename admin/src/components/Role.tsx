@@ -15,10 +15,17 @@ export function Role({ expression, onChange, onSave }: Props) {
   return (
     <Box>
       <Field.Root
-        hint={formatMessage({ id: getTranslation("role.expression.hint") })}
+        hint={formatMessage({
+          id: getTranslation("role.expression.hint"),
+          defaultMessage:
+            "A JMESPath expression evaluated against the OIDC claims. Must return a Strapi role name.",
+        })}
       >
         <Field.Label>
-          {formatMessage({ id: getTranslation("role.expression.label") })}
+          {formatMessage({
+            id: getTranslation("role.expression.label"),
+            defaultMessage: "Role mapping",
+          })}
         </Field.Label>
         <Textarea
           value={expression}
@@ -29,7 +36,10 @@ export function Role({ expression, onChange, onSave }: Props) {
       </Field.Root>
       <Box paddingTop={4}>
         <Button onClick={onSave}>
-          {formatMessage({ id: getTranslation("page.save") })}
+          {formatMessage({
+            id: getTranslation("page.save"),
+            defaultMessage: "Save",
+          })}
         </Button>
       </Box>
     </Box>

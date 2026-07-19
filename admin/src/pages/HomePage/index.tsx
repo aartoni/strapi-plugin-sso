@@ -41,7 +41,11 @@ const HomePage = () => {
     >
       <Layouts.Header
         title="Single Sign On"
-        subtitle={formatMessage({ id: getTranslation("page.title") })}
+        subtitle={formatMessage({
+          id: getTranslation("page.title"),
+          defaultMessage:
+            "Assign Strapi roles to users based on their OIDC claims",
+        })}
       />
       {showSuccess && <SuccessAlertMessage onClose={() => setSuccess(false)} />}
       {showError && <ErrorAlertMessage onClose={() => setError(false)} />}
