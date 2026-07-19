@@ -57,6 +57,20 @@ Discoverable options are only required when `discovery` is `false`.
 | `givenNameField` | no | `"given_name"` | Userinfo claim for first name |
 | `rememberMe` | no | `true` | Store JWT in localStorage (`true`) or cookie (`false`) |
 
+### Reverse proxy
+
+When Strapi runs behind a TLS-terminating reverse proxy (nginx, Traefik, a cloud load balancer), enable Koa proxy trust in `config/server.ts` and ensure the proxy forwards `X-Forwarded-Proto`:
+
+```ts
+export default ({ env }) => ({
+  // ...
+  proxy: { koa: true },
+});
+```
+
+> [!IMPORTANT]
+> Without this, Strapi treats the internal hop as plain HTTP, the admin session cookies set during login are rejected, and sign-in fails silently.
+
 ### Optional routing
 
 To overwrite Strapi's default admin login page, you'll have to add an explicit Vite configuration and import the provided plugin.
