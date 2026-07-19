@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@strapi/design-system";
 import { Page, Layouts } from "@strapi/strapi/admin";
 import { useIntl } from "react-intl";
@@ -65,4 +65,4 @@ const HomePage = () => {
   );
 };
 
-export default memo(HomePage);
+export default HomePage;
