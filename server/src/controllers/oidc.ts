@@ -5,6 +5,7 @@ import { Config } from "../utils/config";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import PLUGIN_ID from "../pluginId";
 import type { RoleService } from "../services/role";
+import { AdminService } from "../services/admin";
 
 let jwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 
@@ -49,7 +50,7 @@ const signIn = async (ctx: Context) => {
 const callback = async (ctx: Context) => {
   const config = strapi.config.get<Config>("plugin::oidc");
   const userService = strapi.service("admin::user");
-  const adminService = strapi.plugin(PLUGIN_ID).service("admin");
+  const adminService: AdminService = strapi.plugin(PLUGIN_ID).service("admin");
   const roleService: RoleService = strapi.plugin(PLUGIN_ID).service("role");
 
   // Read and clear one-time session values up front so they can't be reused
@@ -116,8 +117,8 @@ const callback = async (ctx: Context) => {
 
       user = await adminService.createUser(
         email,
-        userResponse[config.givenNameField],
-        userResponse[config.familyNameField],
+        userResponse[config.givenNameField] ?? "",
+        userResponse[config.familyNameField] ?? "",
         adminService.localeFindByHeader(ctx),
         roles,
       );

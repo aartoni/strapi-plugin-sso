@@ -6,7 +6,7 @@ import { Config } from "../utils/config";
 import { SSO_ERRORS, SsoErrorCode } from "../utils/errors";
 import { AdminRoleRef, AdminSessionsConfig, AdminUser } from "../types/strapi";
 
-export default ({ strapi }: { strapi: Core.Strapi }) => ({
+const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
   async createUser(
     email: string,
     firstname: string,
@@ -158,3 +158,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     return accessResult.token;
   },
 });
+
+export default adminService;
+export type AdminService = ReturnType<typeof adminService>;
