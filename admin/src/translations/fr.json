@@ -1,10 +1,10 @@
 {
-  "page.title": "Attribuer des rôles Strapi aux utilisateurs selon leurs claims OIDC",
-  "page.save": "Enregistrer",
-  "page.save.success": "Paramètres mis à jour",
-  "page.save.error": "Échec de la mise à jour",
   "page.cancel": "Annuler",
   "page.ok": "OK",
+  "page.save": "Enregistrer",
+  "page.save.error": "Échec de la mise à jour",
+  "page.save.success": "Paramètres mis à jour",
+  "page.title": "Attribuer des rôles Strapi aux utilisateurs selon leurs claims OIDC",
   "role.expression.label": "Mappage des rôles",
   "role.expression.hint": "Une expression JMESPath évaluée par rapport aux claims OIDC. Doit renvoyer un nom de rôle Strapi."
 }
