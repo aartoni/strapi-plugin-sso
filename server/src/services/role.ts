@@ -27,14 +27,10 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   async resolveRole(userInfo: OidcUserInfo): Promise<AdminRoleRef[] | null> {
     const config = await this.getConfig();
-    if (!config?.expression) {
-      return null;
-    }
+    if (!config?.expression) return null;
 
     const result = search(userInfo as JSONValue, config.expression);
-    if (typeof result !== "string") {
-      return null;
-    }
+    if (typeof result !== "string") return null;
 
     const role = await strapi.db
       .query("admin::role")
