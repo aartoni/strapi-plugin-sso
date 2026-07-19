@@ -28,7 +28,7 @@ export default {
       {
         method: "GET",
         path: "/callback",
-        handler: "oidc.signInCallback",
+        handler: "oidc.callback",
         config: { auth: false },
       },
     ],

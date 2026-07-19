@@ -47,7 +47,7 @@ const signIn = async (ctx: Context) => {
   ctx.redirect(`${authorizationEndpoint}?${params}`);
 };
 
-const signInCallback = async (ctx: Context) => {
+const callback = async (ctx: Context) => {
   const config = strapi.config.get<Config>("plugin::oidc");
   const userService = strapi.service("admin::user");
   const adminService = strapi.plugin(PLUGIN_ID).service("admin");
@@ -142,7 +142,4 @@ const signInCallback = async (ctx: Context) => {
   }
 };
 
-export default {
-  signIn,
-  signInCallback,
-};
+export default { signIn, callback };
