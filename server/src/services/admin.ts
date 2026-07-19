@@ -61,17 +61,17 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
     const config: Config = strapi.config.get("plugin::oidc");
     const rememberMe = !!config.rememberMe;
 
+    const persist = rememberMe
+      ? `localStorage.setItem('jwtToken', '"${jwtToken}"');`
+      : `document.cookie = 'jwtToken=${encodeURIComponent(jwtToken)}; Path=/';`;
+
     return `
 <!doctype html>
 <html>
 <head><meta charset="utf-8"></head><body>
 <noscript>JavaScript must be enabled for authentication</noscript>
 <script nonce="${nonce}">
-if(${rememberMe}){
-  localStorage.setItem('jwtToken', '"${jwtToken}"');
-} else {
-  document.cookie = 'jwtToken=${encodeURIComponent(jwtToken)}; Path=/';
-}
+${persist}
 localStorage.setItem('isLoggedIn', 'true');
 location.href = '${strapi.config.admin.url}'
 </script>
