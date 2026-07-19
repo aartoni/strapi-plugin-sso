@@ -11,7 +11,6 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
     email: string,
     firstname: string,
     lastname: string,
-    locale: string,
     roles: AdminRoleRef[],
   ) {
     const userService = strapi.service("admin::user");
@@ -23,7 +22,6 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
       lastname: resolvedLastName,
       email,
       roles,
-      preferedLanguage: locale,
     });
 
     return userService.register({
@@ -34,9 +32,6 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
         password: randomBytes(32).toString("hex"),
       },
     });
-  },
-  localeFindByHeader(ctx: Context) {
-    return ctx.acceptsLanguages("en", "fr", "it") || "en";
   },
   async triggerWebHook(user: AdminUser) {
     const schema = strapi.getModel("admin::user");

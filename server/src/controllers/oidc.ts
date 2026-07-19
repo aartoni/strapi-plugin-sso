@@ -120,7 +120,6 @@ const callback = async (ctx: Context) => {
         email,
         userResponse[config.givenNameField] ?? "",
         userResponse[config.familyNameField] ?? "",
-        adminService.localeFindByHeader(ctx),
         roles,
       );
       await adminService.triggerWebHook(user);

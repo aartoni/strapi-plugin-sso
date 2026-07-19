@@ -1,13 +1,6 @@
 import { describe, test, expect, jest } from "@jest/globals";
-import accepts from "accepts";
 import admin from "../admin";
 import { SSO_ERRORS } from "../../utils/errors";
-
-const ctxFor = (acceptLanguage) => {
-  const headers = { "accept-language": acceptLanguage };
-  const negotiator = accepts({ headers });
-  return { acceptsLanguages: (...langs) => negotiator.languages(...langs) };
-};
 
 const mockSession = {
   generateRefreshToken: jest.fn().mockResolvedValue({ token: "mock-refresh" }),
@@ -80,19 +73,6 @@ describe("admin service", () => {
         deviceId,
         expect.any(Object),
       );
-    });
-  });
-
-  describe("localeFindByHeader", () => {
-    test.each([
-      ["fr", "fr"],
-      ["en", "en"],
-      ["fr,en;q=0.8", "fr"],
-      ["en-US,en;q=0.9", "en"],
-      ["ja", "en"],
-      [undefined, "en"],
-    ])("Accept-Language %p → %p", (header, expected) => {
-      expect(service.localeFindByHeader(ctxFor(header))).toBe(expected);
     });
   });
 });
