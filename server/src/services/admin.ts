@@ -73,7 +73,7 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
 <script nonce="${nonce}">
 ${persist}
 localStorage.setItem('isLoggedIn', 'true');
-location.href = '${strapi.config.admin.url}'
+location.replace = '${strapi.config.admin.url}'
 </script>
 </body>
 </html>`;
