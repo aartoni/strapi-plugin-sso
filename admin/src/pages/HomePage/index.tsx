@@ -23,7 +23,7 @@ const HomePage = () => {
     get<SsoRolesResponse>("/oidc/sso-roles").then((response) => {
       setExpression(response.data?.expression ?? "");
     });
-  }, []);
+  }, [get]);
 
   const onSave = async () => {
     try {
