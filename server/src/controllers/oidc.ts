@@ -4,6 +4,7 @@ import { randomUUID, randomBytes, createHash } from "node:crypto";
 import { Config } from "../utils/config";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import PLUGIN_ID from "../pluginId";
+import type { RoleService } from "../services/role";
 
 let jwkSet: ReturnType<typeof createRemoteJWKSet> | undefined;
 
@@ -51,7 +52,7 @@ const callback = async (ctx: Context) => {
   const config = strapi.config.get<Config>("plugin::oidc");
   const userService = strapi.service("admin::user");
   const adminService = strapi.plugin(PLUGIN_ID).service("admin");
-  const roleService = strapi.plugin(PLUGIN_ID).service("role");
+  const roleService: RoleService = strapi.plugin(PLUGIN_ID).service("role");
 
   // Read and clear one-time session values up front so they can't be reused
   const oidcState = ctx.session.oidcState;
