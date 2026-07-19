@@ -20,8 +20,6 @@ const signIn = async (ctx: Context) => {
   const codeChallenge = createHash("sha256")
     .update(codeVerifier)
     .digest("base64url");
-
-  // Store the code verifier in the session
   ctx.session.codeVerifier = codeVerifier;
 
   const state = randomBytes(32).toString("base64url");
