@@ -65,9 +65,7 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
     return `
 <!doctype html>
 <html>
-<head>
-</head>
-<body>
+<head><meta charset="utf-8"></head><body>
 <noscript>JavaScript must be enabled for authentication</noscript>
 <script nonce="${nonce}">
 if(${isRememberMe}){
