@@ -42,7 +42,10 @@ const HomePage = () => {
       permissions={[{ action: "plugin::oidc.read", subject: null }]}
     >
       <Layouts.Header
-        title="Single Sign On"
+        title={formatMessage({
+          id: getTranslation("plugin.name"),
+          defaultMessage: "Single Sign-On",
+        })}
         subtitle={formatMessage({
           id: getTranslation("page.title"),
           defaultMessage:

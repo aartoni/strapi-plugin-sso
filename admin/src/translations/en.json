@@ -5,6 +5,7 @@
   "page.save.error": "Update failed",
   "page.save.success": "Settings updated",
   "page.title": "Assign Strapi roles to users based on their OIDC claims",
+  "plugin.name": "Single Sign-On",
   "role.expression.hint": "A JMESPath expression evaluated against the OIDC claims. Must return a Strapi role name.",
   "role.expression.label": "Role mapping"
 }
