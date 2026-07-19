@@ -25,13 +25,13 @@ const roleService = ({ strapi }: { strapi: Core.Strapi }) => ({
       .query("plugin::oidc.roles")
       .create({ data: { expression } });
   },
-  async resolveRole(userInfo: JSONValue): Promise<AdminRoleRef[] | null> {
+  async resolveRole(userInfo: OidcUserInfo): Promise<AdminRoleRef[] | null> {
     const config = await this.getConfig();
     if (!config?.expression) {
       return null;
     }
 
-    const result = search(userInfo, config.expression);
+    const result = search(userInfo as JSONValue, config.expression);
     if (typeof result !== "string") {
       return null;
     }
