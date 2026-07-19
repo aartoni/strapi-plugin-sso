@@ -66,6 +66,9 @@ const adminService = ({ strapi }: { strapi: Core.Strapi }) => ({
 <!doctype html>
 <html>
 <head>
+</head>
+<body>
+<noscript>JavaScript must be enabled for authentication</noscript>
 <script nonce="${nonce}">
 if(${isRememberMe}){
   localStorage.setItem('jwtToken', '"${jwtToken}"');
@@ -75,9 +78,6 @@ if(${isRememberMe}){
 localStorage.setItem('isLoggedIn', 'true');
 location.href = '${strapi.config.admin.url}'
 </script>
-</head>
-<body>
-<noscript>JavaScript must be enabled for authentication</noscript>
 </body>
 </html>`;
   },
