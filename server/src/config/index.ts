@@ -18,15 +18,13 @@ const TYPE_FIELDS_MAP = {
 };
 
 function validator(config: Config) {
-  for (const [type, props] of Object.entries(TYPE_FIELDS_MAP)) {
-    for (const prop of props) {
-      if (typeof config[prop] !== type) {
-        throw new Error(
-          `'${prop}' must be a ${type}, received ${typeof config[prop]}.`,
-        );
-      }
-    }
-  }
+  const typeErrors = Object.entries(TYPE_FIELDS_MAP).flatMap(([type, props]) =>
+    props
+      .filter((key) => typeof config[key] !== type)
+      .map((key) => `'${key}' must be a ${type}, was ${typeof config[key]}.`),
+  );
+  if (typeErrors.length > 0) throw new Error(typeErrors.join(" "));
+
   const required = config.discovery
     ? ALWAYS_REQUIRED_FIELDS
     : [...ALWAYS_REQUIRED_FIELDS, ...DISCOVERABLE_FIELDS];
