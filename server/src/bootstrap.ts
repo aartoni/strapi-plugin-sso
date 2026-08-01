@@ -26,6 +26,12 @@ export default async ({ strapi }: { strapi: Core.Strapi }) => {
       uid: "read",
       pluginName: PLUGIN_ID,
     },
+    {
+      section: "plugins",
+      displayName: "Update",
+      uid: "update",
+      pluginName: PLUGIN_ID,
+    },
   ];
   await strapi.admin.services.permission.actionProvider.registerMany(actions);
 };
