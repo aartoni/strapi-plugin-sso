@@ -34,5 +34,11 @@ module.exports = {
       displayName: "unit",
       testMatch: ["**/__tests__/*.spec.js"],
     },
+    {
+      ...base,
+      displayName: "api",
+      testMatch: ["**/__tests__/sso-roles-permissions.test.js"],
+      moduleNameMapper: { "^jose$": "<rootDir>/server/src/tests/jose.mock.js" },
+    },
   ],
 };

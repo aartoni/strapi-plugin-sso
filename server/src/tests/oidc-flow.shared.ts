@@ -40,10 +40,15 @@ type Endpoints = {
   userinfoEndpoint: string;
 };
 
-export function mockTokenAndUserinfo({
-  tokenEndpoint,
-  userinfoEndpoint,
-}: Endpoints) {
+export type UserinfoOverrides = {
+  email?: string;
+  groups?: string[];
+};
+
+export function mockTokenAndUserinfo(
+  { tokenEndpoint, userinfoEndpoint }: Endpoints,
+  overrides: UserinfoOverrides = {},
+) {
   nock(tokenEndpoint)
     .post(/.*/)
     .reply(200, { access_token: "ACCESS", id_token: "IDTOKEN" });
@@ -52,10 +57,10 @@ export function mockTokenAndUserinfo({
     .get(/.*/)
     .reply(200, {
       sub: "test-user",
-      email: "jane.doe@example.com",
+      email: overrides.email ?? "jane.doe@example.com",
       [process.env.OIDC_FAMILY_NAME_FIELD!]: "Doe",
       [process.env.OIDC_GIVEN_NAME_FIELD!]: "Jane",
-      groups: ["admins"],
+      groups: overrides.groups ?? ["admins"],
     });
 }
 
@@ -79,26 +84,24 @@ export async function assertSignInRedirect(
   return url;
 }
 
-export async function assertLoginFlow(
+export async function loginAs(
   strapi: Core.Strapi,
   endpoints: Endpoints,
   mockPayloadRef: typeof mockPayload,
+  overrides: UserinfoOverrides = {},
 ) {
   const agent = request.agent(strapi.server.httpServer);
-
   const url = await assertSignInRedirect(agent);
   const state = url.searchParams.get("state");
   const nonce = url.searchParams.get("nonce")!;
 
   expect(nonce).toBeTruthy();
   mockPayloadRef.nonce = nonce;
-
-  mockTokenAndUserinfo(endpoints);
+  mockTokenAndUserinfo(endpoints, overrides);
 
   const res = await agent.get(
     `/api/oidc/callback?code=FAKE_CODE&state=${state}`,
   );
-
   expect(res.status).toBe(200);
   expect(res.type).toBe("text/html");
   expect(res.text).toMatch(/<script nonce=/);
@@ -118,6 +121,16 @@ export async function assertLoginFlow(
   expect(jwtMatch).not.toBeNull();
   const token = jwtMatch![1];
   expect(token.split(".")).toHaveLength(3);
+
+  return { agent, token };
+}
+
+export async function assertLoginFlow(
+  strapi: Core.Strapi,
+  endpoints: Endpoints,
+  mockPayloadRef: typeof mockPayload,
+) {
+  const { agent, token } = await loginAs(strapi, endpoints, mockPayloadRef);
 
   const me = await agent
     .get("/admin/users/me")
