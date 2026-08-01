@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@aartoni/strapi-plugin-oidc": "link:.yalc/@aartoni/strapi-plugin-oidc",
-    "@strapi/plugin-users-permissions": "5.50.1",
-    "@strapi/strapi": "5.50.1",
+    "@strapi/plugin-users-permissions": "5.51.1",
+    "@strapi/strapi": "5.51.1",
     "better-sqlite3": "12.11.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
