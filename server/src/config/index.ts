@@ -2,6 +2,7 @@ import {
   Config,
   ALWAYS_REQUIRED_FIELDS,
   DISCOVERABLE_FIELDS,
+  RawConfig,
 } from "../utils/config";
 
 const DEFAULTS = {
@@ -17,7 +18,7 @@ const TYPE_FIELDS_MAP = {
   string: ["scopes", "familyNameField", "givenNameField"] as const,
 };
 
-function validator(config: Config) {
+function assertConfig(config: RawConfig): asserts config is Config {
   const typeErrors = Object.entries(TYPE_FIELDS_MAP).flatMap(([type, props]) =>
     props
       .filter((key) => typeof config[key] !== type)
@@ -33,10 +34,10 @@ function validator(config: Config) {
     throw new Error(`These are required: ${missing.join(", ")}.`);
   }
 
-  const scopes = config.scopes.split(/\s+/);
+  const scopes = (config.scopes as string).split(/\s+/);
   if (!scopes.includes("openid")) {
     throw new Error("The 'openid' scope is required.");
   }
 }
 
-export default { default: DEFAULTS, validator };
+export default { default: DEFAULTS, validator: assertConfig };

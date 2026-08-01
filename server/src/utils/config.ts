@@ -1,6 +1,6 @@
 export type Config = {
   discovery: boolean;
-  rememberMe?: boolean;
+  rememberMe: boolean;
 
   issuer: string;
   clientId: string;
@@ -15,6 +15,8 @@ export type Config = {
   userInfoEndpoint: string;
   jwksUri: string;
 };
+
+export type RawConfig = { [K in keyof Config]?: unknown };
 
 export const ALWAYS_REQUIRED_FIELDS: (keyof Config)[] = [
   "issuer",
