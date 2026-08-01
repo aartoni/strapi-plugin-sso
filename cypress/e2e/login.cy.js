@@ -57,9 +57,19 @@ describe("SSO plugin", () => {
   });
 
   describe("plugin access for a non-admin (Editor)", () => {
+    const ignorePolicyFailed = (err) => {
+      if (err.message.includes("Policy Failed")) return false;
+      return true;
+    };
+
     beforeEach(() => {
+      Cypress.on("uncaught:exception", ignorePolicyFailed);
       cy.loginAs("jane", "password");
       cy.visit(`${CMS}/admin`);
+    });
+
+    afterEach(() => {
+      Cypress.off("uncaught:exception", ignorePolicyFailed);
     });
 
     it("hides the SSO link from an Editor's sidebar", () => {
@@ -73,7 +83,7 @@ describe("SSO plugin", () => {
       cy.visit(`${CMS}/admin/plugins/${PLUGIN_ID}`, {
         failOnStatusCode: false,
       });
-      cy.findByRole("heading", { name: /single sign on/i }).should("not.exist");
+      cy.findByRole("heading", { name: /single sign-on/i }).should("not.exist");
       cy.contains(/you don't have the permissions/i).should("be.visible");
     });
   });
@@ -138,7 +148,7 @@ describe("SSO plugin", () => {
     });
 
     it("renders the role attribute path field", () => {
-      cy.findByRole("heading", { name: /single sign on/i }).should("exist");
+      cy.findByRole("heading", { name: /single sign-on/i }).should("exist");
       cy.contains(
         /assign strapi roles to users based on their oidc claims/i,
       ).should("be.visible");
