@@ -24,7 +24,7 @@ With OIDC Discovery (recommended: the plugin auto-resolves endpoints from your p
 
 ```ts
 export default ({ env }) => ({
-  "oidc": {
+  oidc: {
     enabled: true,
     config: {
       issuer: "https://your-oidc-provider.com",
