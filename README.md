@@ -55,7 +55,7 @@ Discoverable options are only required when `discovery` is `false`.
 | `jwksUri` | discoverable | – | Provider JWKS URI |
 | `familyNameField` | no | `"family_name"` | Userinfo claim for last name |
 | `givenNameField` | no | `"given_name"` | Userinfo claim for first name |
-| `rememberMe` | no | `true` | Store JWT in localStorage (`true`) or cookie (`false`) |
+| `rememberMe` | no | `true` | User persisted across restarts (`true`) or cleared when the browser closes (`false`) |
 
 ### Reverse proxy
 
